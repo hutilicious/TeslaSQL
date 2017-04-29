@@ -1,22 +1,27 @@
 {
-  "name": "electron-quick-start",
+  "name": "teslasql",
+  "productName": "TeslaSQL",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
+  "description": "A HeidiSQL like SQL management tool written in HTML and Javascript using electron.",
+  "main": "assets/js/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/teslasql.png --prune=true --out=build",
+    "deb64": "electron-installer-debian --src build/TeslaSQL-linux-x64/ --dest build/installers/ --arch amd64"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/hutilicious/teslasql",
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "TeslaSQL",
+    "HeidiSQL",
+    "MySQL",
+    "HTML",
+    "Javascript"
   ],
   "author": "GitHub",
-  "license": "CC0-1.0",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "~1.6.2"
+    "electron": "~1.6.2",
+    "electron-installer-debian": "^0.5.1",
+    "electron-packager": "^8.6.0"
   }
 }
