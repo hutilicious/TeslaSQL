@@ -23,5 +23,9 @@
     "electron": "~1.6.2",
     "electron-installer-debian": "^0.5.1",
     "electron-packager": "^8.6.0"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery-resizable-dom": "^0.20.0"
   }
 }

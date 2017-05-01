@@ -13,7 +13,7 @@ let mainWindow
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({ width: 800, height: 600, icon: __dirname + '/assets/icons/teslasql.png' })
+  mainWindow = new BrowserWindow({ width: 800, height: 600, icon: __dirname + '/../icons/teslasql.png' })
   mainWindow.setMinimumSize(800, 600);
 
   // and load the index.html of the app.

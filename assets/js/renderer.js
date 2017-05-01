@@ -1,4 +1,15 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-console.log("test");
+// Setup libs
+const $ = require('jquery');
+require('jquery-resizable-dom');
+
+
+// Make panels resizeable
+$(".panel-left").resizable({
+    handleSelector: ".splitter",
+    resizeHeight: false
+});
+
+$(".panel-container").resizable({
+    handleSelector: ".splitter-horizontal",
+    resizeWidth: false
+});
