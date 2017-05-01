@@ -8,9 +8,9 @@ html,body
     height: 100vh;
 }
 
-/* horizontal panel*/
+/* BASE GUI */
 
-.panel-container {
+#teslasql-panel-container {
   display: flex;
   flex-direction: row;
   overflow: hidden;
@@ -22,17 +22,16 @@ html,body
   height: 83%;
 }
 
-.panel-left {
+#teslasql-sidebar {
   flex: 0 0 auto;
   width: 30%;
   min-height: 200px;
   min-width: 200px;
-  max-width: 40%;
-  white-space: nowrap;
+  max-width: 60%;
   box-sizing: border-box;
 }
 
-.splitter {
+#teslasql-resize-v {
   flex: 0 0 auto;
   background: #dadada;
   min-height: 200px;
@@ -42,7 +41,7 @@ html,body
   cursor: col-resize;  
 }
 
-.panel-right {
+#teslasql-main {
   flex: 1 1 auto;
   /* resizable */
   width: 100%;
@@ -51,10 +50,7 @@ html,body
   box-sizing: border-box;
 }
 
-
-/* vertical panel */
-
-.splitter-horizontal {
+#teslasql-resize-h {
   flex: 0 0 auto;
   height: 1px;
   border-bottom:1px solid #cfcfcf;
