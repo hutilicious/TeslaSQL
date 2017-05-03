@@ -6,6 +6,7 @@ html,body
     background-color: #fafafa;
     width: 100vw;
     height: 100vh;
+    overflow: hidden;
 }
 
 /* BASE GUI */
@@ -24,17 +25,16 @@ html,body
 
 #teslasql-sidebar {
   flex: 0 0 auto;
-  width: 30%;
-  min-height: 200px;
-  min-width: 200px;
+  width: 20%;
+  min-width: 20%;
   max-width: 60%;
   box-sizing: border-box;
+  overflow: auto;
 }
 
 #teslasql-resize-v {
   flex: 0 0 auto;
   background: #dadada;
-  min-height: 200px;
   width: 1px;
   border-right:1px solid #cfcfcf;
   border-left:1px solid #cfcfcf;
@@ -45,16 +45,46 @@ html,body
   flex: 1 1 auto;
   /* resizable */
   width: 100%;
-  min-height: 200px;
-  min-width: 200px;
   box-sizing: border-box;
+  overflow: auto;
 }
 
-#teslasql-resize-h {
+#teslasql-main-top
+{
+  overflow:auto;
+  max-height:80%;
+  min-height: 30%;
+  height: 70%;
+}
+#teslasql-cmd
+{
+  resize: none;
+  box-sizing:border-box;
+  width: 100%;
+  height: 100%;
+  font-family: monospace;
+  font-size: 1.2rem;
+  color: #000;
+  display:block;
+  box-shadow: none;
+  outline: none;
+  border: 0;
+}
+#teslasql-main-results
+{
+  overflow:auto;
+}
+
+.teslasql-resize-h {
   flex: 0 0 auto;
   height: 1px;
   border-bottom:1px solid #cfcfcf;
   border-top:1px solid #cfcfcf;
   background: #dadada;
   cursor: row-resize;
+}
+
+#teslasql-log
+{
+  overflow: auto;
 }

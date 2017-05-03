@@ -17,16 +17,21 @@
     </div>
 
     <div id="teslasql-main">
-      <div>
-      <button id="mysql-test">Mysql Connect</button>
-      <button id="mysql-execute">Execute</button>
+
+      <div id="teslasql-main-top">
+        <textarea id="teslasql-cmd"></textarea>
       </div>
-      <textarea id="teslasql-cmd" style="width:50%;"></textarea>
+
+      <div class="teslasql-resize-h" id="teslasql-resize-results">
+      </div>
+
+      <div id="teslasql-main-results">
+      </div>
     </div>
   </div>
-  <div id="teslasql-resize-h">
+  <div class="teslasql-resize-h" id="teslasql-resize-log">
   </div>
-  <div id="teslasql-log">Log</div>
+  <div id="teslasql-log"></div>
 </body>
 
 <script>

@@ -29,6 +29,7 @@
     "electron-localshortcut": "^1.1.1",
     "jquery": "^3.2.1",
     "jquery-resizable-dom": "^0.20.0",
-    "mysql": "^2.13.0"
+    "mysql": "^2.13.0",
+    "sql-formatter": "^1.2.0"
   }
 }
