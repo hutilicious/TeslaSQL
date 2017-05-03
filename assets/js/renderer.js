@@ -1,14 +1,18 @@
 // Setup libs
 const $ = require('jquery');
+require('jquery-resizable-dom');
 const mysql = require('mysql');
 const storage = require('electron-json-storage');
+const ipcRenderer = require('electron').ipcRenderer;
+var connection = null;
 
 /*storage.set('connection', { server: 'localhost', user: 'huti', password: 'huti' }, function (error) {
     if (error) throw error;
 });*/
 
-require('jquery-resizable-dom');
-
+ipcRenderer.on('hotkey-pressed', function(event, arg) {
+    console.log('In renderer again');
+});
 
 // Make panels resizeable
 $("#teslasql-sidebar").resizable({
@@ -25,7 +29,7 @@ $("#mysql-test").click(function () {
     storage.get('connection', function (error, config) {
         if (error) throw error;
 
-        var connection = mysql.createConnection({
+        connection = mysql.createConnection({
             host: config.server,
             user: config.user,
             password: config.password
@@ -43,8 +47,15 @@ $("#mysql-test").click(function () {
                 $("#teslasql-sidebar").append('<div>' + database + '</div>');
             });
         });
-
-        connection.end();
     });
+});
 
+$("#mysql-execute").click(function () {
+    var query = $("#teslasql-cmd").val();
+    connection.query(query, function (error, results, fields) {
+        if (error) throw error;
+
+        $("#teslasql-log").append('<div>' + query + '</div>');
+        $("#teslasql-log").append('<div>' + JSON.stringify(results) + '</div>');
+    });
 });
