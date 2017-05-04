@@ -4,21 +4,69 @@ require('jquery-resizable-dom');
 const mysql = require('mysql');
 const sqlformatter = require('sql-formatter');
 const storage = require('electron-json-storage');
-const ipcRenderer = require('electron').ipcRenderer;
-var connection = null;
+const shortcutListener = require('electron').ipcRenderer;
+let connection = null;
+let _singleton = Symbol();
 
+// Modify DB connection here
 /*storage.set('connection', { server: 'localhost', user: 'huti', password: 'huti' }, function (error) {
     if (error) throw error;
 });*/
 
+// This is where we put our code, just for the hell of it
 class TeslaSql {
-    constructor(height, width) {
-        this.height = height;
-        this.width = width;
+    /**
+     * constructer cant be private, so we hack it a bit
+     */
+    constructor(singletonToken) {
+        if (_singleton !== singletonToken) {
+            throw new Error('Cannot instantiate directly.');
+        }
     }
+
+    /**
+     * returns an instance to TeslaSql
+     * @returns TeslaSql
+     */
+    static getInstance() {
+        if (!this[_singleton]) {
+            this[_singleton] = new TeslaSql(_singleton);
+        }
+
+        return this[_singleton];
+    }
+
+    /**
+     * entry point, init gui
+     */
     init() {
         this.resize();
         this.connect();
+        this.listenToShortcuts();
+
+        $(window).resize(this.resize);
+
+        // Make panels resizeable
+        $("#teslasql-sidebar").resizable({
+            handleSelector: "#teslasql-resize-v",
+            resizeHeight: false
+        });
+
+        $("#teslasql-panel-container").resizable({
+            handleSelector: "#teslasql-resize-log",
+            resizeWidth: false,
+            onDrag: this.resize,
+            onDragEnd: this.resize
+        });
+
+        $("#teslasql-main-top").resizable({
+            handleSelector: "#teslasql-resize-results",
+            resizeWidth: false,
+            onDrag: this.resize,
+            onDragEnd: this.resize
+        });
+
+        $('#teslasql-cmd').focus();
     }
     /**
      * calculate the height of the panels
@@ -35,6 +83,7 @@ class TeslaSql {
      * starts connection to database
      */
     connect() {
+        var _this = this;
         storage.get('connection', function (error, config) {
             if (error) throw error;
 
@@ -44,7 +93,7 @@ class TeslaSql {
                 password: config.password
             });
             connection.connect();
-            this.query('SHOW DATABASES', function (results, fields) {
+            _this.query('SHOW DATABASES', function (results, fields) {
                 var arrDbs = [];
                 results.forEach(function (element) {
                     arrDbs.push(element.Database);
@@ -54,7 +103,7 @@ class TeslaSql {
                     $("#teslasql-sidebar").append('<div>' + database + '</div>');
                 });
             });
-        }.bind(this));
+        });
     }
     /**
      * runs a query with current connection
@@ -62,6 +111,7 @@ class TeslaSql {
      * @param function callbackfnc 
      */
     query(query, callbackfnc) {
+        var _this = this;
         const astObj = sqlformatter.format(query);
         console.log(astObj);
         $("#teslasql-log").append('<div>' + query + ';</div>');
@@ -72,66 +122,57 @@ class TeslaSql {
                 }
                 if ($.isFunction(callbackfnc)) {
                     callbackfnc(results, fields);
-                }
-                else {
+                } else {
                     if ($.isArray(results)) {
-                        var html = '<table>';
-                        html += '<tr>';
-                        fields.forEach(function (field) {
-                            html += '<th>' + field.name + '</th>';
-                        });
-                        html += '</tr>';
-                        results.forEach(function (row) {
-                            html += '<tr>';
-                            fields.forEach(function (field) {
-                                html += '<td>' + row[field.name] + '</td>';
-                            });
-                            html += '</tr>';
-                        });
-                        html += '</table>';
-                        $("#teslasql-main-results").html(html);
-                    }
-                    else {
+                        $("#teslasql-main-results").html(_this.renderResultsTable(results, fields));
+                    } else {
                         $("#teslasql-log").append('<div>' + JSON.stringify(results) + '</div>');
                     }
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 $("#teslasql-log").append('<div>' + err + '</div>');
             }
             $("#teslasql-log").scrollTop($("#teslasql-log")[0].scrollHeight);
         });
     }
+    /**
+     * takes resulsts array and fields array and returns html of the table
+     * @param array results 
+     * @param array fields 
+     */
+    renderResultsTable(results, fields) {
+        var html = '<table class="bordered">';
+        html += '<tr>';
+        fields.forEach(function (field) {
+            html += '<th>' + field.name + '</th>';
+        });
+        html += '</tr>';
+        results.forEach(function (row) {
+            html += '<tr>';
+            fields.forEach(function (field) {
+                html += '<td>' + row[field.name] + '</td>';
+            });
+            html += '</tr>';
+        });
+        html += '</table>';
+
+        return html;
+    }
+    /**
+     * handle shortcut events registered in main.js
+     */
+    listenToShortcuts() {
+        var _this = this;
+        shortcutListener.on('shortcut-pressed', function (event, arg) {
+            if (arg == "F9") {
+                var query = $("#teslasql-cmd").val();
+                _this.query(query);
+            }
+        });
+    }
 }
 
-var teslaSql = new TeslaSql(500, 500);
-
-$(window).resize(teslaSql.resize);
-teslaSql.init();
-
-ipcRenderer.on('hotkey-pressed', function (event, arg) {
-    if (arg == "F9") {
-        var query = $("#teslasql-cmd").val();
-        teslaSql.query(query);
-    }
-});
-
-// Make panels resizeable
-$("#teslasql-sidebar").resizable({
-    handleSelector: "#teslasql-resize-v",
-    resizeHeight: false
-});
-
-$("#teslasql-panel-container").resizable({
-    handleSelector: "#teslasql-resize-log",
-    resizeWidth: false,
-    onDrag: teslaSql.resize,
-    onDragEnd: teslaSql.resize
-});
-
-$("#teslasql-main-top").resizable({
-    handleSelector: "#teslasql-resize-results",
-    resizeWidth: false,
-    onDrag: teslaSql.resize,
-    onDragEnd: teslaSql.resize
-});
+/**
+ * void main()
+ */
+TeslaSql.getInstance().init();

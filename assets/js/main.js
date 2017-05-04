@@ -27,7 +27,7 @@ function createWindow() {
 
   electronLocalshortcut.register(mainWindow, 'F9', () => {
 		console.log('You pressed F9');
-    mainWindow.webContents.send('hotkey-pressed','F9');
+    mainWindow.webContents.send('shortcut-pressed','F9');
 	});
 
   // Open the DevTools.
