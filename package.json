@@ -21,7 +21,6 @@
   "license": "MIT",
   "devDependencies": {
     "electron": "~1.6.2",
-    "electron-installer-debian": "^0.5.1",
     "electron-packager": "^8.6.0"
   },
   "dependencies": {
@@ -31,5 +30,8 @@
     "jquery-resizable-dom": "^0.20.0",
     "mysql": "^2.13.0",
     "sql-formatter": "^1.2.0"
+  },
+  "optionalDependencies": {
+    "electron-installer-debian": "^0.5.1"
   }
 }
