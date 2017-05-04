@@ -1,5 +1,7 @@
 # TeslaSQL
-A HeidiSQL like SQL management tool written in HTML and Javascript using electron.
+A HeidiSQL like SQL management tool written in HTML and Javascript using electron.  
+https://raw.githubusercontent.com/hutilicious/TeslaSQL/master/package.json
+![TeslaSQL screenshot](https://raw.githubusercontent.com/hutilicious/TeslaSQL/master/TeslaSQL.png "TeslaSQL screenshot")
 
 ## Getting started
 TeslaSQL is in a really early state. You have to edit "assets/js/renderer.js" in order to get a connection. Remove the comments from this line at the top of the file and edit the connection params:  
