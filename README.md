@@ -24,3 +24,7 @@ Then start the program with:
 `npm start`
 
 Your connection params will now get stored on your drive. You have to close and restart the application now in order to connect to your server.
+
+## What is working
+1. Connecting to MySQL server
+2. Sending queries with F9 shortcut and displaying the results
