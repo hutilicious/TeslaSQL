@@ -3,7 +3,7 @@ A HeidiSQL like SQL management tool written in HTML and Javascript using electro
 ![TeslaSQL screenshot](https://raw.githubusercontent.com/hutilicious/TeslaSQL/master/TeslaSQL.png "TeslaSQL screenshot")
 
 ## Getting started
-Caution: TeslaSQL is in a really early state.
+**Caution: TeslaSQL is in a really early state.**
 
 Start by cloning this repo to your drive:
 
