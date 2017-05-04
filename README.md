@@ -1,6 +1,5 @@
 # TeslaSQL
 A HeidiSQL like SQL management tool written in HTML and Javascript using electron.  
-https://raw.githubusercontent.com/hutilicious/TeslaSQL/master/package.json
 ![TeslaSQL screenshot](https://raw.githubusercontent.com/hutilicious/TeslaSQL/master/TeslaSQL.png "TeslaSQL screenshot")
 
 ## Getting started
