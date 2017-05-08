@@ -1,13 +1,13 @@
 // Setup libs
 const $ = require('jquery');
 require('jquery-resizable-dom');
+require('jquery-table-fixed-header');
 const mysql = require('mysql');
 const sqlformatter = require('sql-formatter');
 const storage = require('electron-json-storage');
 const shortcutListener = require('electron').ipcRenderer;
 let connection = null;
 let _singleton = Symbol();
-
 // Modify DB connection here
 /*storage.set('connection', { server: 'localhost', user: 'huti', password: 'huti' }, function (error) {
     if (error) throw error;
@@ -49,20 +49,25 @@ class TeslaSql {
         // Make panels resizeable
         $("#teslasql-sidebar").resizable({
             handleSelector: "#teslasql-resize-v",
-            resizeHeight: false
+            resizeHeight: false,
+			onDragStart: this.resize,
+			onDrag: this.resize,
+            onDragEnd: this.resize
         });
 
         $("#teslasql-panel-container").resizable({
             handleSelector: "#teslasql-resize-log",
             resizeWidth: false,
-            onDrag: this.resize,
+            onDragStart: this.resize,
+			onDrag: this.resize,
             onDragEnd: this.resize
         });
 
         $("#teslasql-main-top").resizable({
             handleSelector: "#teslasql-resize-results",
             resizeWidth: false,
-            onDrag: this.resize,
+            onDragStart: this.resize,
+			onDrag: this.resize,
             onDragEnd: this.resize
         });
 
@@ -78,6 +83,7 @@ class TeslaSql {
         $('#teslasql-main').height($('#teslasql-panel-container').height());
         $('#teslasql-resize-v').height($('#teslasql-panel-container').height());
         $('#teslasql-main-results').height($('#teslasql-panel-container').height() - $('#teslasql-main-top').outerHeight() - $('#teslasql-resize-results').outerHeight());
+		$("#teslasql-main-results").trigger("scroll"); // fixed header table refresh
     }
     /**
      * starts connection to database
@@ -125,6 +131,9 @@ class TeslaSql {
                 } else {
                     if ($.isArray(results)) {
                         $("#teslasql-main-results").html(_this.renderResultsTable(results, fields));
+						$("#teslasql-main-results table").containerTableFixedHeader({
+							scrollContainer: $("#teslasql-main-results")
+						});
                     } else {
                         $("#teslasql-log").append('<div>' + JSON.stringify(results) + '</div>');
                     }

@@ -102,7 +102,8 @@ table.bordered td, table.bordered th {
 }
 
 table.bordered th {
-    background-color: rgba(0, 0, 0, .3);
+    background-color: #444;
+	color: #fafafa;
 }
 
 table.bordered tr:nth-child(odd) {
