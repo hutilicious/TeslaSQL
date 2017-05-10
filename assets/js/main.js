@@ -16,8 +16,8 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({ width: 1200, height: 800, icon: __dirname + '/../icons/teslasql.png' })
-  mainWindow.setMinimumSize(800, 600);
-
+  mainWindow.setMinimumSize(700, 500);
+  mainWindow.maximize();
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
     pathname: path.join(__dirname, '../html/index.html'),
@@ -25,10 +25,12 @@ function createWindow() {
     slashes: true
   }))
 
+
+
   electronLocalshortcut.register(mainWindow, 'F9', () => {
-		console.log('You pressed F9');
-    mainWindow.webContents.send('shortcut-pressed','F9');
-	});
+    console.log('You pressed F9');
+    mainWindow.webContents.send('shortcut-pressed', 'F9');
+  });
 
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()

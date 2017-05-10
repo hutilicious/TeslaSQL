@@ -4,35 +4,28 @@
 <head>
   <meta charset="UTF-8">
   <title>TeslaSQL</title>
-  <link rel="stylesheet" type="text/css" href="../../node_modules/handsontable/dist/handsontable.full.min.css" />
   <link rel="stylesheet" type="text/css" href="../css/base.css" />
+  <link rel="stylesheet" type="text/css" href="../../node_modules/handsontable/dist/handsontable.full.min.css" />
 </head>
 
 <body>
-  <div id="teslasql-panel-container">
-
-    <div id="teslasql-sidebar">
-    </div>
-
-    <div id="teslasql-resize-v">
-    </div>
-
-    <div id="teslasql-main">
-
-      <div id="teslasql-main-top">
-        <textarea id="teslasql-cmd"></textarea>
+  <div id="wrapper">
+    <div id="toolbar"></div>
+    <div id="split-view-log">
+      <div id="split-sidebar-content">
+        <div id="sidebar"></div>
+        <div id="splitter-sidebar-content" class="splitter-v"></div>
+        <div id="split-tabs-results">
+          <div id="tabs"><textarea id="query"></textarea></div>
+          <div id="splitter-tabs-results" class="splitter-h"></div>
+          <div id="results"></div>
+        </div>
       </div>
-
-      <div class="teslasql-resize-h" id="teslasql-resize-results">
-      </div>
-
-      <div id="teslasql-main-results">
-      </div>
+      <div id="splitter-view-log" class="splitter-h"></div>
+      <div id="log"></div>
     </div>
+    <div id="statusbar"></div>
   </div>
-  <div class="teslasql-resize-h" id="teslasql-resize-log">
-  </div>
-  <div id="teslasql-log"></div>
 </body>
 
 <script>

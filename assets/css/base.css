@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
@@ -9,103 +10,92 @@ html, body {
 }
 
 
-/* BASE GUI */
-
-#teslasql-panel-container {
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    /* avoid browser level touch actions */
-    xtouch-action: none;
-    max-height: 95%;
-    min-height: 30%;
-    height: 83%;
-}
-
-#teslasql-sidebar {
-    flex: 0 0 auto;
-    width: 20%;
-    min-width: 20%;
-    max-width: 60%;
-    box-sizing: border-box;
-    overflow: auto;
-}
-
-#teslasql-resize-v {
-    flex: 0 0 auto;
-    background: #dadada;
-    width: 1px;
-    border-right: 1px solid #cfcfcf;
-    border-left: 1px solid #cfcfcf;
-    cursor: col-resize;
-}
-
-#teslasql-main {
-    flex: 1 1 auto;
-    /* resizable */
-    width: 100%;
-    box-sizing: border-box;
-    overflow: auto;
-}
-
-#teslasql-main-top {
-    overflow: auto;
-    max-height: 80%;
-    min-height: 30%;
-    height: 70%;
-}
-
-#teslasql-cmd {
-    resize: none;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    font-family: monospace;
-    font-size: 1.2rem;
-    color: #000;
-    display: block;
-    box-shadow: none;
-    outline: none;
-    border: 0;
-}
-
-#teslasql-main-results {
-    overflow: auto;
-}
-
-.teslasql-resize-h {
-    flex: 0 0 auto;
-    height: 1px;
-    border-bottom: 1px solid #cfcfcf;
-    border-top: 1px solid #cfcfcf;
-    background: #dadada;
+/* UI Panels requirements */
+.splitter-h {
+    height: 2px;
+    border-bottom: 1px solid #222;
+    background-color: #444;
     cursor: row-resize;
 }
 
-#teslasql-log {
+.splitter-v {
+    width: 2px;
+    border-right: 1px solid #222;
+    background-color: #444;
+    cursor: col-resize;
+}
+
+
+/* UI Elements */
+
+#wrapper {
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+#toolbar {
+    height: 30px;
+    box-sizing: border-box;
+    background-color: #c0c0c0;
+    overflow: hidden;
+}
+
+#split-view-log {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+#split-sidebar-content {
+    height: 80%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+#sidebar {
+    width: 20%;
+    min-width: 250px;
+    background-color: red;
     overflow: auto;
 }
 
-
-/* Layout helpers */
-
-table.bordered {
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    border-collapse: collapse;
+#split-tabs-results {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+    min-width: 350px;
 }
 
-table.bordered td, table.bordered th {
-    border: 1px solid rgba(0, 0, 0, .2);
-    padding: 3px;
+#tabs {
+    height: 80%;
+    min-height: 200px;
+    background-color: lightblue;
+    overflow: hidden;
 }
 
-table.bordered th {
-    background-color: #444;
-	color: #fafafa;
+#results {
+    flex: 1;
+    min-height: 50px;
+    background-color: purple;
+    overflow: hidden;
 }
 
-table.bordered tr:nth-child(odd) {
-    background-color: rgba(0, 0, 0, .05);
+#log {
+    flex: 1;
+    min-height: 50px;
+    background-color: yellow;
+    overflow: auto;
+}
+
+#statusbar {
+    height: 25px;
+    box-sizing: border-box;
+    background-color: #c0c0c0;
+    overflow: hidden;
 }

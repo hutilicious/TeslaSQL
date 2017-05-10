@@ -1,0 +1,101 @@
+/* BASE GUI */
+
+#teslasql-panel-container {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    /* avoid browser level touch actions */
+    xtouch-action: none;
+    max-height: 95%;
+    min-height: 30%;
+    height: 83%;
+}
+
+#teslasql-sidebar {
+    flex: 0 0 auto;
+    width: 20%;
+    min-width: 20%;
+    max-width: 60%;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+#teslasql-resize-v {
+    flex: 0 0 auto;
+    background: #dadada;
+    width: 1px;
+    border-right: 1px solid #cfcfcf;
+    border-left: 1px solid #cfcfcf;
+    cursor: col-resize;
+}
+
+#teslasql-main {
+    flex: 1 1 auto;
+    /* resizable */
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+#teslasql-main-top {
+    overflow: auto;
+    max-height: 80%;
+    min-height: 30%;
+    height: 70%;
+}
+
+#teslasql-cmd {
+    resize: none;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    font-family: monospace;
+    font-size: 1.2rem;
+    color: #000;
+    display: block;
+    box-shadow: none;
+    outline: none;
+    border: 0;
+}
+
+#teslasql-main-results {
+    overflow: auto;
+}
+
+.teslasql-resize-h {
+    flex: 0 0 auto;
+    height: 1px;
+    border-bottom: 1px solid #cfcfcf;
+    border-top: 1px solid #cfcfcf;
+    background: #dadada;
+    cursor: row-resize;
+}
+
+#teslasql-log {
+    overflow: auto;
+}
+
+
+/* Layout helpers */
+
+table.bordered {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+table.bordered td,
+table.bordered th {
+    border: 1px solid rgba(0, 0, 0, .2);
+    padding: 3px;
+}
+
+table.bordered th {
+    background-color: #444;
+    color: #fafafa;
+}
+
+table.bordered tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, .05);
+}
