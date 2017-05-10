@@ -1,13 +1,15 @@
 // Setup libs
 const $ = require('jquery');
 require('jquery-resizable-dom');
-require('jquery-table-fixed-header');
+//require('jquery-table-fixed-header');
+const Handsontable = require('handsontable');
 const mysql = require('mysql');
 const sqlformatter = require('sql-formatter');
 const storage = require('electron-json-storage');
 const shortcutListener = require('electron').ipcRenderer;
 let connection = null;
 let _singleton = Symbol();
+let datagrid = null;
 // Modify DB connection here
 /*storage.set('connection', { server: 'localhost', user: 'huti', password: 'huti' }, function (error) {
     if (error) throw error;
@@ -83,7 +85,8 @@ class TeslaSql {
         $('#teslasql-main').height($('#teslasql-panel-container').height());
         $('#teslasql-resize-v').height($('#teslasql-panel-container').height());
         $('#teslasql-main-results').height($('#teslasql-panel-container').height() - $('#teslasql-main-top').outerHeight() - $('#teslasql-resize-results').outerHeight());
-		$("#teslasql-main-results").trigger("scroll"); // fixed header table refresh
+		if (datagrid !== null) datagrid.render();
+		//$("#teslasql-main-results").trigger("scroll"); // fixed header table refresh
     }
     /**
      * starts connection to database
@@ -130,10 +133,29 @@ class TeslaSql {
                     callbackfnc(results, fields);
                 } else {
                     if ($.isArray(results)) {
-                        $("#teslasql-main-results").html(_this.renderResultsTable(results, fields));
-						$("#teslasql-main-results table").containerTableFixedHeader({
+							console.log(fields.map(function(elem){return elem.name}));
+							//$("#teslasql-main-results").html(_this.renderResultsTable(results, fields));
+						
+							var container = document.getElementById('teslasql-main-results');
+							if (datagrid !== null)
+							{
+								datagrid.destroy();
+							}
+							datagrid = new Handsontable(container, {
+							  data: results,
+							  minSpareCols: 1,
+							  fillHandle : false,
+							  colHeaders : fields.map(function(elem){return elem.name}),
+							  columns : fields.map(function(elem){return {data:elem.name,editor:'text'}}),
+							  minSpareRows: 1,
+							  rowHeaders: false,
+							  contextMenu: true,
+							 manualColumnResize: true
+							});
+						
+						/*$("#teslasql-main-results table").containerTableFixedHeader({
 							scrollContainer: $("#teslasql-main-results")
-						});
+						});*/
                     } else {
                         $("#teslasql-log").append('<div>' + JSON.stringify(results) + '</div>');
                     }
