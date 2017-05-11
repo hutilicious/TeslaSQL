@@ -87,7 +87,20 @@ class TeslaSql
         });
 
         $('#query').focus();
-        $('#query').keyup(this.highlightQuery);
+        $('#query').keyup(function(event)
+        {
+            if (!event.shiftKey && !event.altKey && !event.ctrlKey)
+            {
+                TeslaSql.getInstance().highlightQuery();
+            }
+        });
+        $('#query').keydown(function(event)
+        {
+            if (!event.shiftKey && !event.altKey && !event.ctrlKey)
+            {
+                TeslaSql.getInstance().highlightQuery();
+            }
+        });
     }
     /**
      * calculate the height of the panels
@@ -112,7 +125,8 @@ class TeslaSql
             connection = mysql.createConnection({
                 host: config.server,
                 user: config.user,
-                password: config.password
+                password: config.password,
+                multipleStatements: true
             });
             connection.connect();
             if ($.isFunction(callbackfnc))
@@ -179,7 +193,7 @@ class TeslaSql
     query(query, callbackfnc)
     {
         var _this = this;
-        $log.append('<div>' + sqlformatter.format(query) + ';</div>');
+        $log.append('<div>' + sqlformatter.format(query) + '</div>');
         connection.query(query, function(error, results, fields)
         {
             try
