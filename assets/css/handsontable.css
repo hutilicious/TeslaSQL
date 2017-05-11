@@ -1,0 +1,12 @@
+.handsontable tr:first-child th,
+.handsontable tr:first-child td {
+    border-top: 0;
+}
+
+.handsontable th:first-child,
+.handsontable th:nth-child(2),
+.handsontable td:first-of-type,
+.handsontable .htNoFrame+th,
+.handsontable .htNoFrame+td {
+    border-left: 0;
+}

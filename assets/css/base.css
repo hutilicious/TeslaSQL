@@ -84,6 +84,7 @@ body {
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    display: inline-block;
     margin: 0;
     padding: 0;
     resize: none;
@@ -91,6 +92,7 @@ body {
     font-family: monospace;
     padding: 2px;
     border: 0;
+    background: #fff;
 }
 
 #results {
