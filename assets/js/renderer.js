@@ -112,12 +112,6 @@ class TeslaSql {
                 arrDbs.sort();
                 arrDbs.forEach(function (database) {
                     $sidebar.append('<div>' + database + '</div>');
-                    $sidebar.append('<div>' + database + '</div>');
-                    $sidebar.append('<div>' + database + '</div>');
-                    $sidebar.append('<div>' + database + '</div>');
-                    $sidebar.append('<div>' + database + '</div>');
-                    $sidebar.append('<div>' + database + '</div>');
-                    $sidebar.append('<div>' + database + '</div>');
                 });
             });
         });
@@ -131,7 +125,7 @@ class TeslaSql {
         var _this = this;
         const astObj = sqlformatter.format(query);
         console.log(astObj);
-        $("#teslasql-log").append('<div>' + query + ';</div>');
+        $log.append('<div>' + query + ';</div>');
         connection.query(query, function (error, results, fields) {
             try {
                 if (error) {

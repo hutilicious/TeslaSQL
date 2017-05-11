@@ -11,17 +11,16 @@ body {
 
 
 /* UI Panels requirements */
+
 .splitter-h {
-    height: 2px;
-    border-bottom: 1px solid #222;
-    background-color: #444;
+    height: 4px;
+    background-color: #F0F0F0;
     cursor: row-resize;
 }
 
 .splitter-v {
-    width: 2px;
-    border-right: 1px solid #222;
-    background-color: #444;
+    width: 4px;
+    background-color: #F0F0F0;
     cursor: col-resize;
 }
 
@@ -38,7 +37,7 @@ body {
 #toolbar {
     height: 30px;
     box-sizing: border-box;
-    background-color: #c0c0c0;
+    background-color: #fff;
     overflow: hidden;
 }
 
@@ -60,8 +59,9 @@ body {
 #sidebar {
     width: 20%;
     min-width: 250px;
-    background-color: red;
+    background-color: #fff;
     overflow: auto;
+    border: 1px solid #ABADB3;
 }
 
 #split-tabs-results {
@@ -73,29 +73,45 @@ body {
 }
 
 #tabs {
-    height: 80%;
+    height: 40%;
     min-height: 200px;
-    background-color: lightblue;
+    background-color: #fff;
     overflow: hidden;
+    border: 1px solid #ABADB3;
+}
+
+#query {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    resize: none;
+    outline: none;
+    font-family: monospace;
+    padding: 2px;
+    border: 0;
 }
 
 #results {
     flex: 1;
     min-height: 50px;
-    background-color: purple;
+    background-color: #fff;
     overflow: hidden;
+    border: 1px solid #ABADB3;
 }
 
 #log {
     flex: 1;
     min-height: 50px;
-    background-color: yellow;
+    background-color: #fff;
     overflow: auto;
+    border: 1px solid #ABADB3;
 }
 
 #statusbar {
     height: 25px;
     box-sizing: border-box;
-    background-color: #c0c0c0;
+    background-color: #F0F0F0;
     overflow: hidden;
 }
