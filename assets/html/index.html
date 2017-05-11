@@ -18,7 +18,9 @@
         <div id="sidebar"></div>
         <div id="splitter-sidebar-content" class="splitter-v"></div>
         <div id="split-tabs-results">
-          <div id="tabs"><pre id="query" contenteditable="" class="sql"></pre></div>
+          <div id="tabs">
+            <div id="query"></div>
+          </div>
           <div id="splitter-tabs-results" class="splitter-h"></div>
           <div id="results"></div>
         </div>
@@ -29,7 +31,58 @@
     <div id="statusbar"></div>
   </div>
 </body>
+<script>
+  // Monaco uses a custom amd loader that over-rides node's require.
+  // Keep a reference to node's require so we can restore it after executing the amd loader file.
+  var nodeRequire = global.require;
+  var editor = null;
 
+</script>
+<script src="../../node_modules/monaco-editor/min/vs/loader.js"></script>
+<script>
+  // Save Monaco's amd require and restore Node's require
+  var amdRequire = global.require;
+  global.require = nodeRequire;
+
+</script>
+<script>
+  // require node modules before loader.js comes in
+  var path = require('path');
+  function uriFromPath(_path) {
+    var pathName = path.resolve(_path).replace(/\\/g, '/');
+    if (pathName.length > 0 && pathName.charAt(0) !== '/') {
+      pathName = '/' + pathName;
+    }
+    return encodeURI('file://' + pathName);
+  }
+  amdRequire.config({
+    baseUrl: uriFromPath(path.join(__dirname, '../../node_modules/monaco-editor/min'))
+  });
+
+  amdRequire.config({
+    'vs/nls': {
+      availableLanguages: {
+        '*': 'de'
+      }
+    }
+  });
+
+  // workaround monaco-css not understanding the environment
+  self.module = undefined;
+  // workaround monaco-typescript not understanding the environment
+  self.process.browser = true;
+  amdRequire(['vs/editor/editor.main', 'vs/editor/editor.main.nls.de'], function () {
+    editor = monaco.editor.create(document.getElementById('query'), {
+      contextmenu: true,
+      automaticLayout: true,
+      value: [
+        'SELECT * FROM `test`.`user`'
+      ].join('\n'),
+      language: 'sql'
+    });
+  });
+
+</script>
 <script>
   // You can also require other files to run in this process
   require('../js/renderer.js')
