@@ -10,7 +10,6 @@ const storage = require('electron-json-storage');
 const shortcutListener = require('electron').ipcRenderer;
 let connection = null;
 let _singleton = Symbol();
-let $log = null;
 let $sidebar = null;
 let datagrid = null;
 // Modify DB connection here
@@ -54,13 +53,12 @@ class TeslaSql
         this.resize();
         this.connect(function()
         {
-            TeslaSql.getInstance().query('SHOW full processlist');
+            TeslaSql.getInstance().query('SHOW FULL PROCESSLIST');
         });
         this.listenToShortcuts();
 
         $(window).resize(this.resize);
 
-        $log = $("#log");
         $sidebar = $("#sidebar");
 
         // Make panels resizeable
@@ -94,9 +92,10 @@ class TeslaSql
         {
             datagrid.updateSettings({ height: $('#results').height(), width: $('#results').width() });
         }
-		$('.CodeMirror').each(function(i, el){
-			el.CodeMirror.refresh();
-		});
+        $('.CodeMirror').each(function(i, el)
+        {
+            el.CodeMirror.refresh();
+        });
     }
     /**
      * starts connection to database
@@ -127,9 +126,16 @@ class TeslaSql
                     arrDbs.push(element.Database);
                 });
                 arrDbs.sort();
+                var htmlDatabases = '<div id="databases-list">';
                 arrDbs.forEach(function(database)
                 {
-                    $sidebar.append('<div>' + database + '</div>');
+                    htmlDatabases += '<div class="database-entry" data-database="' + database + '"><span class="database-icon-container"><img class="database-icon" src="../icons/database.svg" /></span><span class="database-title">' + database + '</span></div>';
+                });
+                htmlDatabases += '</div>';
+                $sidebar.html(htmlDatabases);
+                $('.database-entry').click(function()
+                {
+                    _this.query('USE ' + $(this).data("database"));
                 });
             });
         });
@@ -145,8 +151,8 @@ class TeslaSql
     formatQuery()
     {
         var query = window.editor.getValue();
-		window.editor.setValue(sqlformatter.format(query));
-		window.editor.setCursor({line: 2, ch: 5});
+        window.editor.setValue(sqlformatter.format(query));
+        window.editor.setCursor({ line: 2, ch: 5 });
     }
 
     /**
@@ -157,7 +163,7 @@ class TeslaSql
     query(query, callbackfnc)
     {
         var _this = this;
-        $log.append('<div>' + sqlformatter.format(query) + '</div>');
+        window.log.replaceRange(query + "\n", CodeMirror.Pos(window.log.lastLine()));
         connection.query(query, function(error, results, fields)
         {
             try
@@ -193,21 +199,16 @@ class TeslaSql
                             height: $('#results').height(),
                             width: $('#results').width()
                         });
-
-						/*$("#teslasql-main-results table").containerTableFixedHeader({
-							scrollContainer: $("#teslasql-main-results")
-						});*/
                     } else
                     {
-                        $log.append('<div>' + JSON.stringify(results) + '</div>');
+                        window.log.replaceRange(JSON.stringify(results), CodeMirror.Pos(window.log.lastLine()));
                     }
                 }
             } catch (err)
             {
-                console.log(err);
-                $log.append('<div>' + err + '</div>');
+                window.log.replaceRange(err, CodeMirror.Pos(window.log.lastLine()));
             }
-            $log.scrollTop($log[0].scrollHeight);
+            window.log.scrollTo(0, window.log.getScrollInfo().height);
         });
     }
     /**

@@ -59,6 +59,16 @@
         }
       }
     });
+    window.log = CodeMirror(document.getElementById('log'), {
+      mode: mime,
+      indentWithTabs: true,
+      smartIndent: true,
+      lineNumbers: true,
+      matchBrackets: true,
+      readOnly: 'nocursor',
+      autofocus: false,
+      theme: 'eclipse'
+    });
   };
 
   require('../js/renderer.js')
