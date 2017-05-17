@@ -10,3 +10,13 @@
 .handsontable .htNoFrame+td {
     border-left: 0;
 }
+
+.handsontable th {
+    background-color: #fff;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #F0F0F0 !important;
+}
+
+.handsontable .htCore>tbody>tr:nth-child(odd)>td {
+    background-color: #F8F8F8;
+}
