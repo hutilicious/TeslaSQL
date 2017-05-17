@@ -29,6 +29,7 @@ class TeslaSql
         {
             throw new Error('Cannot instantiate directly.');
         }
+        this.bolLoggedSomething = false;
     }
 
     /**
@@ -141,10 +142,10 @@ class TeslaSql
         });
     }
 
-    sanitizeQuery(query)
+    sanitizeString(query)
     {
-        query = query.replace(/<br>/g, "\n");
-        query = striptags(query);
+        query = query.replace(/\s+/g, " ");
+        query = $.trim(query);
         return query;
     }
 
@@ -155,6 +156,27 @@ class TeslaSql
         window.editor.setCursor({ line: 2, ch: 5 });
     }
 
+    log(string, bolComment)
+    {
+        var output = "";
+        if (this.bolLoggedSomething)
+        {
+            output = "\n";
+        }
+        if (bolComment === true)
+        {
+            output += '/* ';
+        }
+        output += this.sanitizeString(string);
+        if (bolComment === true)
+        {
+            output += ' */';
+        }
+        window.log.replaceRange(output, CodeMirror.Pos(window.log.lastLine()));
+        window.log.scrollTo(0, window.log.getScrollInfo().height);
+        this.bolLoggedSomething = true;
+    }
+
     /**
      * runs a query with current connection
      * @param string query 
@@ -163,7 +185,7 @@ class TeslaSql
     query(query, callbackfnc)
     {
         var _this = this;
-        window.log.replaceRange(query + "\n", CodeMirror.Pos(window.log.lastLine()));
+        this.log(query);
         connection.query(query, function(error, results, fields)
         {
             try
@@ -201,14 +223,13 @@ class TeslaSql
                         });
                     } else
                     {
-                        window.log.replaceRange(JSON.stringify(results), CodeMirror.Pos(window.log.lastLine()));
+                        _this.log(JSON.stringify(results));
                     }
                 }
             } catch (err)
             {
-                window.log.replaceRange(err, CodeMirror.Pos(window.log.lastLine()));
+                _this.log(err.toString(), true);
             }
-            window.log.scrollTo(0, window.log.getScrollInfo().height);
         });
     }
     /**
