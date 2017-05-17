@@ -10,3 +10,8 @@
 .CodeMirror-hint:hover {
     background-color: #DBF0FF;
 }
+
+.CodeMirror pre {
+    font-family: 'Noto Mono', 'Consolas', 'Courier New', monospace;
+    font-size: 1rem;
+}

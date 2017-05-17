@@ -40,11 +40,10 @@
 </body>
 <script>
   // You can also require other files to run in this process
-  window.onload = function()
+  window.onload = function ()
   {
-    var mime = 'text/x-mariadb';
     window.editor = CodeMirror(document.getElementById('query'), {
-      mode: mime,
+      mode: 'text/x-mariadb',
       indentWithTabs: true,
       smartIndent: true,
       lineNumbers: true,
@@ -60,7 +59,7 @@
       }
     });
     window.log = CodeMirror(document.getElementById('log'), {
-      mode: mime,
+      mode: 'text/x-mariadb',
       indentWithTabs: true,
       smartIndent: true,
       lineNumbers: true,

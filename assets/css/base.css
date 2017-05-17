@@ -7,6 +7,7 @@ body {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    font-size: 14px;
 }
 
 
@@ -64,29 +65,28 @@ body {
     border: 1px solid #ABADB3;
 }
 
-#databases-list .database-entry
-{
+#databases-list .database-entry {
     padding: 3px 0;
-    display:flex;
+    display: flex;
     flex-direction: row;
-    cursor:pointer;
+    cursor: pointer;
     font-size: 0.9rem;
 }
-#databases-list > .database-entry:hover
-{
+
+#databases-list>.database-entry:hover {
     background-color: #DBF0FF;
 }
-#databases-list .database-icon-container
-{
+
+#databases-list .database-icon-container {
     padding: 0px 5px;
 }
-#databases-list .database-icon
-{
+
+#databases-list .database-icon {
     height: 15px;
     width: 15px;
 }
-#databases-list .database-title
-{
+
+#databases-list .database-title {
     flex: 1;
 }
 

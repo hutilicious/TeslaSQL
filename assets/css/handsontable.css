@@ -20,3 +20,7 @@
 .handsontable .htCore>tbody>tr:nth-child(odd)>td {
     background-color: #F8F8F8;
 }
+
+.handsontable .htDimmed {
+    color: inherit;
+}

@@ -138,6 +138,13 @@ class TeslaSql
                 {
                     _this.query('USE ' + $(this).data("database"));
                 });
+                $('.database-entry').dblclick(function()
+                {
+                    _this.query('SHOW TABLES FROM ' + $(this).data("database"), function(results, fields)
+                    {
+                        
+                    });
+                });
             });
         });
     }
@@ -218,6 +225,11 @@ class TeslaSql
                             rowHeaders: false,
                             contextMenu: false,
                             manualColumnResize: true,
+                            readOnly: true,
+                            beforeChange: function(changes, source)
+                            {
+                                console.log(changes);
+                            },
                             height: $('#results').height(),
                             width: $('#results').width()
                         });
