@@ -27,4 +27,8 @@ Your connection params will now get stored on your drive. You have to close and 
 
 ## What is working
 1. Connecting to MySQL server
-2. Sending queries with F9 shortcut and displaying the results
+2. Formatting queries using F8
+3. Sending queries with F9 shortcut and displaying the results
+4. Log queries to a log window
+5. Syntax highlighting for queries
+6. Show server database list and select a database 
