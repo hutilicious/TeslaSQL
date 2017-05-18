@@ -1,6 +1,6 @@
 .handsontable tr:first-child th,
 .handsontable tr:first-child td {
-    border-top: 0;
+    border-top: 1px solid #fff;
 }
 
 .handsontable th:first-child,
@@ -23,4 +23,8 @@
 
 .handsontable .htDimmed {
     color: inherit;
+}
+
+.handsontable .htCore td {
+    white-space: nowrap;
 }

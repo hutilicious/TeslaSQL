@@ -83,6 +83,50 @@ class TeslaSql
             onDrag: this.resize,
             onDragEnd: this.resize
         });
+
+        var _this = this;
+
+        $(document).on('dblclick', '.database-entry', function()
+        {
+            var $elem = $(this);
+            if (!$elem.hasClass("open"))
+            {
+                _this.query('USE ' + $elem.data("database"), function()
+                {
+                    _this.query('SHOW TABLES FROM ' + $elem.data("database"), function(results, fields)
+                    {
+                        var arrTables = [];
+                        results.forEach(function(element)
+                        {
+                            var key = "";
+                            for (key in element) break;
+                            arrTables.push(element[key]);
+                        });
+                        arrTables.sort();
+                        var htmlTables = '<div class="table-list">';
+                        arrTables.forEach(function(table)
+                        {
+                            htmlTables += '<div class="table-entry list-entry" data-table="' + table + '"><span class="list-icon-container"><img class="list-icon" src="../icons/table.svg" /></span><span class="list-title">' + table + '</span></div>';
+                        });
+                        htmlTables += '</div>';
+                        $elem.after(htmlTables);
+                        $elem.addClass("open");
+                    });
+                });
+            }
+        });
+        $(document).on('click', '.table-entry', function()
+        {
+            var $elem = $(this);
+            if (!$elem.hasClass("open"))
+            {
+                _this.query('SELECT * FROM ' + $elem.data("table") + ' LIMIT 0,1000', function()
+                {
+                    $('.table-entry').removeClass('open');
+                    $elem.addClass("open");
+                }, true);
+            }
+        });
     }
     /**
      * calculate the height of the panels
@@ -127,24 +171,13 @@ class TeslaSql
                     arrDbs.push(element.Database);
                 });
                 arrDbs.sort();
-                var htmlDatabases = '<div id="databases-list">';
+                var htmlDatabases = '<div class="databases-list">';
                 arrDbs.forEach(function(database)
                 {
-                    htmlDatabases += '<div class="database-entry" data-database="' + database + '"><span class="database-icon-container"><img class="database-icon" src="../icons/database.svg" /></span><span class="database-title">' + database + '</span></div>';
+                    htmlDatabases += '<div class="database-entry list-entry" data-database="' + database + '"><span class="list-icon-container"><img class="list-icon" src="../icons/database.svg" /></span><span class="list-title">' + database + '</span></div>';
                 });
                 htmlDatabases += '</div>';
                 $sidebar.html(htmlDatabases);
-                $('.database-entry').click(function()
-                {
-                    _this.query('USE ' + $(this).data("database"));
-                });
-                $('.database-entry').dblclick(function()
-                {
-                    _this.query('SHOW TABLES FROM ' + $(this).data("database"), function(results, fields)
-                    {
-                        
-                    });
-                });
             });
         });
     }
@@ -189,7 +222,7 @@ class TeslaSql
      * @param string query 
      * @param function callbackfnc 
      */
-    query(query, callbackfnc)
+    query(query, callbackfnc, bolDisplayResult)
     {
         var _this = this;
         this.log(query);
@@ -204,7 +237,8 @@ class TeslaSql
                 if ($.isFunction(callbackfnc))
                 {
                     callbackfnc(results, fields);
-                } else
+                }
+                if (bolDisplayResult === true || $.isFunction(callbackfnc))
                 {
                     if ($.isArray(results))
                     {
@@ -226,6 +260,7 @@ class TeslaSql
                             contextMenu: false,
                             manualColumnResize: true,
                             readOnly: true,
+                            colWidths : 150,
                             beforeChange: function(changes, source)
                             {
                                 console.log(changes);
