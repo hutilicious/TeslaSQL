@@ -93,6 +93,8 @@ class TeslaSql
             {
                 _this.query('USE ' + $elem.data("database"), function()
                 {
+                    $('.database-entry').removeClass('in-use');
+                    $elem.addClass("in-use");
                     _this.query('SHOW TABLES FROM ' + $elem.data("database"), function(results, fields)
                     {
                         var arrTables = [];
@@ -113,6 +115,11 @@ class TeslaSql
                         $elem.addClass("open");
                     });
                 });
+            }
+            else
+            {
+                // close database
+                $elem.removeClass("open").next().remove();
             }
         });
         $(document).on('click', '.table-entry', function()
@@ -238,7 +245,7 @@ class TeslaSql
                 {
                     callbackfnc(results, fields);
                 }
-                if (bolDisplayResult === true || $.isFunction(callbackfnc))
+                if (bolDisplayResult === true || !$.isFunction(callbackfnc))
                 {
                     if ($.isArray(results))
                     {
@@ -260,7 +267,7 @@ class TeslaSql
                             contextMenu: false,
                             manualColumnResize: true,
                             readOnly: true,
-                            colWidths : 150,
+                            colWidths: 150,
                             beforeChange: function(changes, source)
                             {
                                 console.log(changes);

@@ -83,6 +83,10 @@ body {
 }
 
 .list-entry.open {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.list-entry.open.in-use {
     background-color: #DBFFF0;
 }
 
